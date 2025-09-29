@@ -1,15 +1,12 @@
 {
-  "extends": [
-    "next/core-web-vitals",
-    "next/typescript"
-  ],
-   "rules": {
+  "extends": ["next/core-web-vitals", "next/typescript"],
+  "rules": {
     "no-unused-vars": "error",
     "no-console": "error",
     "prefer-const": "error",
     "quotes": ["error", "double"],
     "semi": ["error", "always"],
-    "no-multiple-empty-lines": ["error", { "max": 0 }],
+    "no-multiple-empty-lines": ["error", { "max": 1 }],
     "no-extra-semi": "error",
     "camelcase": "error"
   },
