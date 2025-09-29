@@ -10,6 +10,8 @@ import {
 } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { TaskList } from "./task-page";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/app-sidebar";
 export default function Login() {
   const [user, setUser] = useState<User | null>(null);
   const [email, setEmail] = useState("");
@@ -62,7 +64,12 @@ export default function Login() {
             Logout
           </button>
           <>
-            <TaskList />
+            <SidebarProvider>
+              <div className="flex">
+                <AppSidebar />
+                <TaskList />
+              </div>
+            </SidebarProvider>
           </>
         </>
       ) : (
