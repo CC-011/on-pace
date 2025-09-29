@@ -9,6 +9,7 @@ import {
   User,
 } from "firebase/auth";
 import { useEffect, useState } from "react";
+import { TaskList } from "./task-page";
 export default function Login() {
   const [user, setUser] = useState<User | null>(null);
   const [email, setEmail] = useState("");
@@ -60,6 +61,9 @@ export default function Login() {
           >
             Logout
           </button>
+          <>
+            <TaskList />
+          </>
         </>
       ) : (
         <>
