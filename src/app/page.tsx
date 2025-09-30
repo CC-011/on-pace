@@ -12,6 +12,26 @@ import { useEffect, useState } from "react";
 import { TaskList } from "./task-page";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
+import {
+  Menubar,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarSeparator,
+  MenubarTrigger,
+} from "@/components/ui/menubar";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 export default function Login() {
   const [user, setUser] = useState<User | null>(null);
   const [email, setEmail] = useState("");
@@ -55,23 +75,52 @@ export default function Login() {
   return (
     <div className="flex flex-col gap-4 items-center">
       {user ? (
-        <>
-          <p>Welcome {user.email}</p>
-          <button
-            onClick={handleLogout}
-            className="bg-red-500 text-white px-4 py-2 rounded-lg"
-          >
-            Logout
-          </button>
-          <>
-            <SidebarProvider>
-              <div className="flex">
-                <AppSidebar />
-                <TaskList />
-              </div>
-            </SidebarProvider>
-          </>
-        </>
+        <div className="w-full">
+          <div className="flex justify-between pr-[20px] pt-[12px]">
+            <div></div>
+            <div className="flex gap-[10px]">
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button variant="outline">Logout</Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Are you absolutely sure?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Make sure you added the task in order to insure it is
+                      saved in our cloud servers
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={handleLogout}>
+                      Continue
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+              <Menubar>
+                <MenubarMenu>
+                  <MenubarTrigger>Status</MenubarTrigger>
+                  <MenubarContent>
+                    <MenubarItem>Online</MenubarItem>
+                    <MenubarItem>Offline</MenubarItem>
+                    <MenubarSeparator />
+                    <MenubarItem>Busy</MenubarItem>
+                  </MenubarContent>
+                </MenubarMenu>
+              </Menubar>
+            </div>
+          </div>
+          <SidebarProvider className="justify-center">
+            <div className="flex">
+              <AppSidebar />
+              <TaskList />
+            </div>
+          </SidebarProvider>
+        </div>
       ) : (
         <>
           <input

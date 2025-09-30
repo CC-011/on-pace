@@ -135,14 +135,7 @@ export function TaskList() {
 
   return (
     <div className="p-6 space-y-6">
-      <h1 className="text-2xl font-bold">Task List</h1>
-      <button
-        onClick={addTask}
-        className="px-3 py-1 bg-blue-500 text-white rounded-lg"
-      >
-        Add Task
-      </button>
-      {tasks.length === 0 && <p className="text-gray-500">No tasks yet.</p>}
+      <h1 className="text-2xl font-bold text-center">Task List</h1>
       <>
         <Card className="w-full max-w-sm">
           <CardContent>
@@ -182,6 +175,9 @@ export function TaskList() {
             </Button>
           </CardFooter>
         </Card>
+        {tasks.length === 0 && (
+          <p className="text-gray-500 text-center">No tasks yet.</p>
+        )}
       </>
       <ul className="space-y-4">
         {tasks.map((task) => (
