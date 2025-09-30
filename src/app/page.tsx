@@ -75,8 +75,8 @@ export default function Login() {
   return (
     <div className="flex flex-col gap-4 items-center">
       {user ? (
-        <div className="w-full">
-          <div className="flex justify-between pr-[20px] pt-[12px]">
+        <div className="w-full flex justify-center flex-col items-end">
+          <div className="pr-[20px] pt-[12px]">
             <div className="flex gap-[10px]">
               <AlertDialog>
                 <AlertDialogTrigger asChild>
