@@ -77,7 +77,6 @@ export default function Login() {
       {user ? (
         <div className="w-full">
           <div className="flex justify-between pr-[20px] pt-[12px]">
-            <div></div>
             <div className="flex gap-[10px]">
               <AlertDialog>
                 <AlertDialogTrigger asChild>
