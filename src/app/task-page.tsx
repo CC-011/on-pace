@@ -1,8 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
 import { db } from "../app/firebase";
+import { useSelector } from "react-redux";
+import { RootState } from "./lib/store";
 import {
   collection,
+  query,
+  where,
   doc,
   onSnapshot,
   setDoc,
@@ -35,21 +39,22 @@ export function TaskList() {
   const [showMiniTask, setShowMiniTask] = useState(false);
   const [showMiniTaskName, setShowMiniTaskName] = useState("");
   const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
-
+  const { user } = useSelector((state: RootState) => state.auth);
   useEffect(() => {
-    const unsub = onSnapshot(collection(db, "tasks"), (snapshot) => {
-      const liveTasks: Task[] = snapshot.docs.map((doc) => {
-        const data = doc.data() as Omit<Task, "id">; // tell TS that data has all fields except id
-        return {
-          ...data,
-          id: doc.id, // ✅ we place this last to guarantee it's the one we keep
-        };
-      });
+    if (!user?.uid) return;
+    const taskRef = collection(db, "tasks");
+    const q = query(taskRef, where("userId", "==", user.uid));
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const liveTasks = snapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      })) as Task[];
       setTasks(liveTasks);
     });
 
-    return () => unsub();
-  }, []);
+    return () => unsubscribe();
+  }, [user?.uid]);
 
   const toggleMiniTask = async (taskId: string, miniTaskId: string) => {
     const updatedTasks = tasks.map((task) =>
@@ -78,16 +83,21 @@ export function TaskList() {
   });
 
   const addTask = async () => {
+    if (!user) {
+      return;
+    }
     const miniTaskNames: string[] = showMiniTaskName ? [showMiniTaskName] : [];
 
-    const newTask: Task = {
+    const newTask: Task & { userId: string } = {
       id: crypto.randomUUID(),
       name: taskName,
       endDate: endDate,
       miniTasks: miniTaskNames.map(createMiniTask),
+      userId: user.uid,
     };
 
     await setDoc(doc(db, "tasks", newTask.id), newTask);
+
     setTasks((prevTasks) => [...prevTasks, newTask]);
   };
 
