@@ -3,6 +3,7 @@ import { Geist } from "next/font/google";
 import "./globals.css";
 import React from "react";
 import StoreProvider from "./store-provider";
+import AuthListener from "./auth";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -19,11 +20,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <StoreProvider>
-        <body
-          className={`${geistSans.variable} ${geistSans.variable} antialiased`}
-        >
-          {children}
-        </body>
+        <AuthListener>
+          <body
+            className={`${geistSans.variable} ${geistSans.variable} antialiased`}
+          >
+            {children}
+          </body>
+        </AuthListener>
       </StoreProvider>
     </html>
   );
